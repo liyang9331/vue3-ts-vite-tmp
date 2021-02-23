@@ -1,7 +1,8 @@
 <template>
     <div class="page">
         <h1>This is home page</h1>
-        <compontent_1 msg="This is component "></compontent_1>
+        <!-- 子组件 -->
+        <compontent_1 msg="This is component[子组件] "></compontent_1>
     </div>
 </template>
 <script>
@@ -11,6 +12,17 @@ export default {
     name:'home',
     components:{
         compontent_1
+    },
+    beforeCreate(){
+
+    },
+    created(){
+    },
+    mounted(){
+        //调用mutation 函数，修改全局状态
+        this.$store.commit('setPublic')
+        // 输出修改后的全局状态
+        console.log('修改后的全局状态量为:'+this.$store.state.publicVariable)
     }
 }
 </script>

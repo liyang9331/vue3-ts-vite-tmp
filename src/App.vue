@@ -1,7 +1,7 @@
 <template>
   <div class="root">
     <h1>This is Root Component</h1>
-    <el-button type="primary">Element-ui-plus Runing</el-button>
+    <el-button type="primary">Element-ui-plus Runing000000</el-button>
     <!-- 路由容器 -->
     <router-view></router-view>
   </div>

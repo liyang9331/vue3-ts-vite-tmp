@@ -1,14 +1,26 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
+    <!-- 测试图片 -->
+    <img src="../assets/test_1.jpg" alt="">
   </div>
 </template>
 
 <script>
 export default {
-  name: 'compontent_1',
+  name: 'HelloWorld',
   props: {
     msg: String
+  },
+  mounted(){
+    console.log(911)
+    // test axios
+    this.axios.get('localost','911')
+    .then(res => {
+      console.log(res)
+    })
+    .catch(err => {
+      console.error(err); 
+    })
   }
 }
 </script>

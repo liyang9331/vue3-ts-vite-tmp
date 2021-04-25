@@ -1,23 +1,28 @@
 <template>
-  <div class="root">
-    <h1>This is Root Component</h1>
-    <el-button type="primary">Element-ui-plus Runing000000</el-button>
-    <!-- 路由容器 -->
-    <router-view></router-view>
+  <img src="./assets/logo.png">
+  <div>
+    <p>
+      If Element Plus is successfully added to this project, you'll see an
+      <code v-text="'<el-button>'"></code>
+      below
+    </p>
+    <el-button type="primary">el-button</el-button>
   </div>
+  <HelloWorld msg="Welcome to Your Vue.js App"/>
 </template>
 
 <script>
+import HelloWorld from './components/HelloWorld.vue'
+
 export default {
-  name: "App",
-  components: {},
-};
+  name: 'App',
+  components: {
+    HelloWorld
+  }
+}
 </script>
 
 <style>
-.root {
-  border: 1px solid red;
-}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

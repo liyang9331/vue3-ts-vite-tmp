@@ -1,4 +1,3 @@
-const IsProduction = process.env.NODE_ENV === "production";
 module.exports = {
     publicPath: './', //修改打包根路径
     // 配置webpack-dev-server
@@ -31,7 +30,11 @@ module.exports = {
     // 去除 .map 文件
     productionSourceMap: false,
     chainWebpack: config => {
-        if (IsProduction) {
+        config.plugin('html').tap(args => {
+            args[0].title = '学情分析'
+            return args
+        });
+        if (process.env.NODE_ENV != 'development') {
             // 图片压缩
             config.plugins.delete('prefetch')
             config.module.rule('images')
@@ -46,11 +49,10 @@ module.exports = {
                 .loader('url-loader')
                 .tap(options => Object.assign(options, { limit: 6144 }))
         }
-
     },
     // 代码压缩
     configureWebpack: config => {
-        if (IsProduction) {
+        if (process.env.NODE_ENV != 'development') {
             const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
             config.plugins.push(
                 new UglifyJsPlugin({
@@ -63,10 +65,9 @@ module.exports = {
                         }
                     },
                     sourceMap: false,
-                    parallel: false
+                    parallel: true
                 })
             )
         }
-
     }
 }

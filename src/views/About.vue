@@ -1,5 +1,14 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <TestTwo msg="测试" />
   </div>
 </template>
+<script>
+import TestTwo from '@/components/test-two.vue'
+export default {
+  name: 'Home',
+  components: {
+    TestTwo
+  }
+}
+</script>

@@ -27,8 +27,10 @@ module.exports = {
         //     .tap(options => Object.assign(options, { limit: 6144 }))
     },
     configureWebpack: config => {
-        // 为生产环境修改配置...
-        config.plugins.push(
+        if (process.env.NODE_ENV === 'production') {
+
+            // 为生产环境修改配置...
+            config.plugins.push(
                 new UglifyJsPlugin({
                     uglifyOptions: {
                         //生产环境自动删除console
@@ -42,16 +44,16 @@ module.exports = {
                     parallel: true
                 })
             ),
-            config.mode = 'production';
-        // 打包文件大小配置
-        config.performance = {
+                config.mode = 'production';
+            // 打包文件大小配置
+            config.performance = {
                 hints: 'warning',
                 //入口起点的最大体积 整数类型（以字节为单位）
                 maxEntrypointSize: 50000000,
                 //生成文件的最大体积 整数类型（以字节为单位 300k）
                 maxAssetSize: 30000000,
                 //只给出 js 文件的性能提示
-                assetFilter: function(assetFilename) {
+                assetFilter: function (assetFilename) {
                     return assetFilename.endsWith('.js');
                 }
             }
@@ -63,6 +65,7 @@ module.exports = {
             //         deleteOriginalAssets: false //是否删除原文件
             //     })
             // )
+        }
     },
     // 配置网页logo
     pwa: {

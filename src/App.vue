@@ -1,30 +1,31 @@
 <template>
-  <div id="nav">
-    <router-link to="/">测试路由导航1</router-link> |
-    <router-link to="/about">测试路由导航2</router-link>
-  </div>
-  <router-view/>
+  <router-view v-cloak />
 </template>
-
-<style>
+<style scoped>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  width: 100%;
+  height: 100%;
 }
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+[v-cloak] {
+  display: none;
 }
 </style>
+<script>
+export default {
+  name: 'root',
+  created() {
+  },
+  mounted() {
+    // const time = (new Date).getTime() * 1000
+    // 检测本地缓存中是否存储了用户信息
+    if (localStorage.getItem("user")) {
+    }
+    const that = this
+    // 用户刷新页面,会触发 window 对象上的 onBeforeUnload 事件
+    window.onbeforeunload = (event) => {
+      // store 保存到 sessionStorage
+      window.sessionStorage.setItem('store', JSON.stringify(that.$store.state))
+    };
+  }
+}
+</script>

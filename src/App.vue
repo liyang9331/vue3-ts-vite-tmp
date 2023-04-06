@@ -25,93 +25,96 @@
 </template>
 
 <script lang="ts">
-  import {
-    defineComponent,
-    reactive,
-    ref,
-    toRefs,
-    unref,
-    watch,
-    watchEffect,
-  } from "vue";
+import {
+  defineComponent,
+  reactive,
+  ref,
+  toRefs,
+  unref,
+  watch,
+  watchEffect,
+} from "vue";
 
-  import { Menu, Layout } from "ant-design-vue";
-  import { useRouter } from "vue-router";
-  import { registeComp } from "./utils/comp";
+import { Menu, Layout } from "ant-design-vue";
+import { useRouter } from "vue-router";
+import { registeComp } from "./utils/comp";
+import { rubbish } from "@/api/demo";
+registeComp(Layout);
 
-  registeComp(Layout);
+interface Nav {
+  key: string;
+  path: string;
+  displayName: string;
+}
 
-  interface Nav {
-    key: string;
-    path: string;
-    displayName: string;
-  }
+interface MenuState {
+  selectedKeys: string[];
+}
+rubbish({ name: "香蕉" }).then((res: any) => {
+  console.log(res);
+});
 
-  interface MenuState {
-    selectedKeys: string[];
-  }
+export default defineComponent({
+  name: "App",
+  components: {
+    // [Menu.name]: Menu,
+    // [Menu.Item.name]: Menu.Item,
+    // [Layout.name]: Layout,
+    // [Layout.Header.name]: Layout.Header,
+    // [Layout.Content.name]: Layout.Content,
+    // [Layout.Footer.name]: Layout.Footer,
+  },
+  setup() {
+    const navs: Nav[] = [
+      {
+        key: "/tsx",
+        path: "/todo-tsx",
+        displayName: "antd-define-tsx",
+      },
+      {
+        key: "/tmpl",
+        path: "/tmpl",
+        displayName: "antd-script-tmpl",
+      },
+      // {
+      //   key: "/script-tsx",
+      //   path: "/script-tsx",
+      //   displayName: "antd-script-tsx(回显有问题)",
+      // },
+      {
+        key: "/elem-tmpl",
+        path: "/elem-tmpl",
+        displayName: "elem-tmpl",
+      },
+    ];
+    const router = useRouter();
+    const state = reactive<MenuState>({
+      selectedKeys: [],
+    });
 
-  export default defineComponent({
-    name: "App",
-    components: {
-      // [Menu.name]: Menu,
-      // [Menu.Item.name]: Menu.Item,
-      // [Layout.name]: Layout,
-      // [Layout.Header.name]: Layout.Header,
-      // [Layout.Content.name]: Layout.Content,
-      // [Layout.Footer.name]: Layout.Footer,
-    },
-    setup() {
-      const navs: Nav[] = [
-        {
-          key: "/tsx",
-          path: "/todo-tsx",
-          displayName: "antd-define-tsx",
-        },
-        {
-          key: "/tmpl",
-          path: "/tmpl",
-          displayName: "antd-script-tmpl",
-        },
-        // {
-        //   key: "/script-tsx",
-        //   path: "/script-tsx",
-        //   displayName: "antd-script-tsx(回显有问题)",
-        // },
-        {
-          key: "/elem-tmpl",
-          path: "/elem-tmpl",
-          displayName: "elem-tmpl",
-        },
-      ];
-      const router = useRouter();
-      const state = reactive<MenuState>({
-        selectedKeys: [],
-      });
+    //等路由变了之后激活
+    watchEffect(() => {
+      state.selectedKeys = [router.currentRoute.value.path];
+    });
 
-      //等路由变了之后激活
-      watchEffect(() => {
-        state.selectedKeys = [router.currentRoute.value.path];
-      });
+    const choose = ({
+      key,
+      item,
+      selectedKeys,
+    }: {
+      item: Nav;
+      key: string;
+      selectedKeys: string[];
+    }): void => {
+      state.selectedKeys = [key];
+      router.push(key);
+    };
 
-      const choose = ({
-        key,
-        item,
-        selectedKeys,
-      }: {
-        item: Nav;
-        key: string;
-        selectedKeys: string[];
-      }): void => {
-        state.selectedKeys = [key];
-        router.push(key);
-      };
-
-      return {
-        ...toRefs(state),
-        navs,
-        choose,
-      };
-    },
-  });
+    return {
+      ...toRefs(state),
+      navs,
+      choose,
+    };
+  },
+});
 </script>
